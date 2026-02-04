@@ -20,7 +20,6 @@ def savetasks():
             file.write(f'{completed_task}\n')
         file.close()
 
-
 def main():
     current_dir = Path(os.getcwd())
     if os.path.exists(current_dir/"Tasks.txt"):
@@ -93,7 +92,22 @@ def main():
                 for completed_task in completed_tasks:
                     print(str(completed_tasks.index(completed_task) + 1) + ". " + completed_task + "\n")
                 input("Press any key to continue...")
-            elif action == 5: #Quitting the program
+            elif action == 5: #Removing a completed task
+                if len(completed_tasks) == 0: continue
+                for completed_task in completed_tasks:
+                    print(str(completed_tasks.index(completed_task) + 1) + ". " + completed_task)
+                try:
+                    answer = int(input("Enter task number to remove: "))
+                    if not (0 <= answer <= len(completed_tasks)):
+                        raise ValueError(f"Number must be in range of 1 to {len(completed_tasks)}!")
+                except ValueError as e:
+                    print(f"Error: {e}")
+                    print("Please try again!")
+                else:
+                    removedtask = completed_tasks[answer - 1]
+                    completed_tasks.pop(answer - 1)
+                    print("removed task: " + removedtask + "\n")
+            elif action == 6: #Quitting the program
                 savetasks()
                 print("Tasks saved!")
                 sys.exit(0)
